@@ -17,7 +17,7 @@
   "생산",
   "입고"
  ],
- "synced_at": "2026-08-04T10:37:15+09:00",
+ "synced_at": "2026-08-04T13:25:06+09:00",
  "items": [
   {
    "key": "S1",
@@ -3991,6 +3991,44 @@
    "channel": "gmail",
    "isOverseas": true,
    "origin": "overseas"
+  },
+  {
+   "ts": "1785398779.479729",
+   "date": "2026-07-30",
+   "author": "Silvia(홍지은)",
+   "kind": "발주",
+   "product": "YDY 리브라인",
+   "vendor": "엔바이오",
+   "qty": 40000,
+   "unit": "ea",
+   "due": "9월 25일",
+   "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1785398779479729",
+   "channel": "slack",
+   "isOverseas": false,
+   "origin": "domestic",
+   "match": "none",
+   "matchKey": null,
+   "matchName": null,
+   "makerOk": null
+  },
+  {
+   "ts": "1785219301.012769",
+   "date": "2026-07-28",
+   "author": "Jake(배영훈)",
+   "kind": "재발주",
+   "product": "박약다식 리플렛",
+   "vendor": "디자인 모티브",
+   "qty": 7000,
+   "unit": "장",
+   "due": "08월 11일(화)",
+   "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1785219301012769",
+   "channel": "slack",
+   "isOverseas": false,
+   "origin": "domestic",
+   "match": "none",
+   "matchKey": null,
+   "matchName": null,
+   "makerOk": null
   }
  ],
  "slack": {
