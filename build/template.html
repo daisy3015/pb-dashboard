@@ -1344,9 +1344,10 @@ function orderNewTag(o){
   if(!isNewOrder(o)) return "";
   const a = orderAgeDays(o);
   const byDate = a !== null && a >= 0 && a < ORDER_NEW.days;
-  return byDate
-    ? NEW_SVG("sm", `발주일 ${o.date} · ${a}일 경과 · 7일 후 자동 해제`)
-    : ` <span class="tg latest" title="발주일 ${o.date} · ${a}일 경과 (최신 ${ORDER_NEW.markLatest}건 표시)">최신</span>`;
+  const title = byDate
+    ? `발주일 ${o.date} · ${a}일 경과 · 7일 후 자동 해제`
+    : `발주일 ${o.date} · ${a}일 경과 (최신 ${ORDER_NEW.markLatest}건 표시)`;
+  return NEW_SVG("sm", title);
 }
 trackSeen(DB.items);            // SEEN 초기화 이후에 호출 (TDZ 방지)
 
