@@ -19,7 +19,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1784008680.000000",
+  "ts": "1784008705.927069",
   "date": "2026-07-14",
   "author": "Jake",
   "kind": "재발주",
@@ -28,7 +28,7 @@
   "qty": 10000,
   "unit": "set",
   "due": "10월 23일(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1784008680000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1784008705927069",
   "match": "full",
   "matchKey": "S15",
   "matchName": "마그듀오 K2",
@@ -57,7 +57,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1783670000.000000",
+  "ts": "1783663929.847149",
   "date": "2026-07-10",
   "author": "Jake",
   "kind": "재발주",
@@ -66,7 +66,7 @@
   "qty": 10000,
   "unit": "ea",
   "due": "26.09.30(수)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1783670000000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1783663929847149",
   "match": "full",
   "matchKey": "S13",
   "matchName": "액티브비큐텐",
@@ -76,7 +76,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1783669680.000000",
+  "ts": "1783663721.074749",
   "date": "2026-07-10",
   "author": "Jake",
   "kind": "재발주",
@@ -85,7 +85,7 @@
   "qty": 4045,
   "unit": "ea",
   "due": "26.09.30(수)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1783669680000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1783663721074749",
   "match": "full",
   "matchKey": "S38",
   "matchName": "클린 화이버",
@@ -95,7 +95,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1783500000.000000",
+  "ts": "1783500040.005079",
   "date": "2026-07-08",
   "author": "Jake",
   "kind": "재발주",
@@ -104,7 +104,7 @@
   "qty": 6000,
   "unit": "ea",
   "due": "26.09.18(금)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1783500000000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1783500040005079",
   "match": "full",
   "matchKey": "S1",
   "matchName": "프로바이오 에스엘비(SLB)",
@@ -114,7 +114,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1783499220.000000",
+  "ts": "1783499226.089369",
   "date": "2026-07-08",
   "author": "Jake",
   "kind": "재발주",
@@ -123,7 +123,7 @@
   "qty": 5000,
   "unit": "ea",
   "due": "26.09.18(금)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1783499220000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1783499226089369",
   "match": "full",
   "matchKey": "S5",
   "matchName": "풀스펙 멀티비타민",
@@ -133,7 +133,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1782900840.000000",
+  "ts": "1782886484.928209",
   "date": "2026-07-01",
   "author": "Jake",
   "kind": "재발주",
@@ -142,7 +142,7 @@
   "qty": 10000,
   "unit": "ea",
   "due": "26.09.01(화)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782900840000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782886484928209",
   "match": "full",
   "matchKey": "S20",
   "matchName": "피크노제놀 큐텐",
@@ -152,7 +152,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1782897720.000000",
+  "ts": "1782883331.966169",
   "date": "2026-07-01",
   "author": "Jake",
   "kind": "재발주",
@@ -161,7 +161,7 @@
   "qty": 4240,
   "unit": "ea",
   "due": "26.09.01(화)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782897720000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782883331966169",
   "match": "full",
   "matchKey": "S31",
   "matchName": "와일드 알래스카 오메가3 미니",
@@ -190,7 +190,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1782281460.000000",
+  "ts": "1782277871.857239",
   "date": "2026-06-24",
   "author": "Silvia",
   "kind": "재발주",
@@ -199,7 +199,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "8월 말 입고 목표",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782281460000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782277871857239",
   "match": "name",
   "matchKey": "S10",
   "matchName": "코랄칼마디 K2",
@@ -209,7 +209,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1782114480.000000",
+  "ts": "1782114487.305739",
   "date": "2026-06-22",
   "author": "Jake",
   "kind": "신규발주",
@@ -218,7 +218,7 @@
   "qty": 10126,
   "unit": "set",
   "due": "09월 18일(금)(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782114480000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782114487305739",
   "match": "none",
   "matchKey": null,
   "matchName": null,
@@ -228,7 +228,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1781669760.000000",
+  "ts": "1781669797.313859",
   "date": "2026-06-17",
   "author": "Jake",
   "kind": "재발주",
@@ -237,7 +237,7 @@
   "qty": 6000,
   "unit": "set",
   "due": "7월 31일(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1781669760000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1781669797313859",
   "match": "full",
   "matchKey": "S27",
   "matchName": "트룰리 알티지 오메가3 1100",
@@ -247,7 +247,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1781584560.000000",
+  "ts": "1781584565.749069",
   "date": "2026-06-16",
   "author": "Jake",
   "kind": "재발주",
@@ -256,7 +256,7 @@
   "qty": 6000,
   "unit": "set",
   "due": "7월 30(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1781584560000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1781584565749069",
   "match": "full",
   "matchKey": "S35",
   "matchName": "튼튼 리포좀 비타민C",
@@ -266,7 +266,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1781583900.000000",
+  "ts": "1781583949.953869",
   "date": "2026-06-16",
   "author": "Silvia",
   "kind": "재발주",
@@ -275,7 +275,7 @@
   "qty": 6667,
   "unit": "set",
   "due": "26. 09. 04. (예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1781583900000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1781583949953869",
   "match": "name",
   "matchKey": "S37",
   "matchName": "비타민D 츄어블 2000IU",
@@ -304,7 +304,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1780421160.000000",
+  "ts": "1780385219.229099",
   "date": "2026-06-02",
   "author": "Jake",
   "kind": "선발주",
@@ -313,7 +313,7 @@
   "qty": 45590,
   "unit": "set",
   "due": "26.12(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1780421160000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1780385219229099",
   "match": "full",
   "matchKey": "S6",
   "matchName": "폴라초임계오메가3",
@@ -323,7 +323,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1779935820.000000",
+  "ts": "1779935827.672989",
   "date": "2026-05-28",
   "author": "Silvia",
   "kind": "재발주",
@@ -332,7 +332,7 @@
   "qty": 10000,
   "unit": "set",
   "due": "9월 초 입고 목표",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779935820000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779935827672989",
   "match": "name",
   "matchKey": "S24",
   "matchName": "이뮨 빌베리",
@@ -342,7 +342,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1779935280.000000",
+  "ts": "1779935308.634529",
   "date": "2026-05-28",
   "author": "Jake",
   "kind": "재발주",
@@ -351,7 +351,7 @@
   "qty": 3300,
   "unit": "set",
   "due": "26.08.12(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779935280000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779935308634529",
   "match": "full",
   "matchKey": "S16",
   "matchName": "속편한 위장케어",
@@ -361,7 +361,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1779351120.000000",
+  "ts": "1779351173.530979",
   "date": "2026-05-21",
   "author": "Silvia",
   "kind": "재발주",
@@ -370,7 +370,7 @@
   "qty": 6000,
   "unit": "set",
   "due": "11월 중순",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779351120000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779351173530979",
   "match": "name",
   "matchKey": "S9",
   "matchName": "콜라겐 비오틴 듀오",
@@ -380,7 +380,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1778740140.000000",
+  "ts": "1779157764.645859",
   "date": "2026-05-19",
   "author": "Silvia",
   "kind": "리뉴얼",
@@ -389,7 +389,7 @@
   "qty": 4300,
   "unit": "set",
   "due": "8월 중순",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1778740140000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779157764645859",
   "match": "full",
   "matchKey": "S23",
   "matchName": "트리플 아르기닌 액티브",
@@ -399,7 +399,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1778217240.000000",
+  "ts": "1778559296.381219",
   "date": "2026-05-12",
   "author": "Jake",
   "kind": "재발주",
@@ -408,7 +408,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "07/17(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1778217240000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1778559296381219",
   "match": "full",
   "matchKey": "S13",
   "matchName": "액티브비큐텐",
@@ -418,7 +418,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1778212620.000000",
+  "ts": "1778554660.163319",
   "date": "2026-05-12",
   "author": "Silvia",
   "kind": "재발주",
@@ -427,7 +427,7 @@
   "qty": 3300,
   "unit": "set",
   "due": "07월 08일 (목표)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1778212620000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1778554660163319",
   "match": "full",
   "matchKey": "S34",
   "matchName": "리포좀 비타민C 맥스 1000",
@@ -437,7 +437,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1777014240.000000",
+  "ts": "1777367050.247299",
   "date": "2026-04-28",
   "author": "Jake",
   "kind": "재발주",
@@ -446,7 +446,7 @@
   "qty": 10000,
   "unit": "set",
   "due": "26.08.07(금)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1777014240000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1777367050247299",
   "match": "full",
   "matchKey": "S8",
   "matchName": "파이토 레드큐민",
@@ -456,7 +456,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1776408960.000000",
+  "ts": "1776749770.460659",
   "date": "2026-04-21",
   "author": "Jake",
   "kind": "부자재",
@@ -465,7 +465,7 @@
   "qty": 5000,
   "unit": "ea",
   "due": "05.11",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1776408960000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1776749770460659",
   "match": "material",
   "matchKey": null,
   "matchName": null,
@@ -475,7 +475,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1776324280.000000",
+  "ts": "1776674332.658679",
   "date": "2026-04-20",
   "author": "Silvia",
   "kind": "재발주",
@@ -484,7 +484,7 @@
   "qty": 10000,
   "unit": "set",
   "due": "07월 17일 (목표)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1776324280000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1776674332658679",
   "match": "full",
   "matchKey": "S2",
   "matchName": "퓨어 리포좀 비타민C",
@@ -494,7 +494,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1775977980.000000",
+  "ts": "1776316433.617339",
   "date": "2026-04-16",
   "author": "Silvia",
   "kind": "재발주",
@@ -503,7 +503,7 @@
   "qty": 7000,
   "unit": "set",
   "due": "07월 26일 (추산)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1775977980000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1776316433617339",
   "match": "full",
   "matchKey": "S7",
   "matchName": "포스트바이오틱스 GX",
@@ -513,7 +513,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1775974020.000000",
+  "ts": "1776313651.418669",
   "date": "2026-04-16",
   "author": "Jake",
   "kind": "재발주",
@@ -522,7 +522,7 @@
   "qty": 6000,
   "unit": "set",
   "due": "06월 24일(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1775974020000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1776313651418669",
   "match": "full",
   "matchKey": "S1",
   "matchName": "프로바이오 에스엘비(SLB)",
@@ -532,7 +532,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1775291880.000000",
+  "ts": "1775637515.128999",
   "date": "2026-04-08",
   "author": "Jake",
   "kind": "재발주",
@@ -541,7 +541,7 @@
   "qty": 10000,
   "unit": "set",
   "due": "06월 24일(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1775291880000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1775637515128999",
   "match": "full",
   "matchKey": "S15",
   "matchName": "마그듀오 K2",
@@ -551,7 +551,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1774844700.000000",
+  "ts": "1775103937.462879",
   "date": "2026-04-02",
   "author": "Jake",
   "kind": "재발주",
@@ -560,7 +560,7 @@
   "qty": 8200,
   "unit": "set",
   "due": "06월 05(금)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774844700000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1775103937462879",
   "match": "full",
   "matchKey": "S28",
   "matchName": "마시는 마그네슘 200",
@@ -570,7 +570,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1774920300.000000",
+  "ts": "1774920324.490829",
   "date": "2026-03-31",
   "author": "Jake",
   "kind": "리뉴얼",
@@ -579,7 +579,7 @@
   "qty": 10000,
   "unit": "set",
   "due": "06/19(금) 예정",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774920300000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774920324490829",
   "match": "full",
   "matchKey": "S13",
   "matchName": "액티브비큐텐",
@@ -589,7 +589,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1774834860.000000",
+  "ts": "1774834867.706229",
   "date": "2026-03-30",
   "author": "Jake",
   "kind": "재발주",
@@ -598,7 +598,7 @@
   "qty": 8000,
   "unit": "set",
   "due": "05/01(금) 예정",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774834860000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774834867706229",
   "match": "full",
   "matchKey": "S35",
   "matchName": "튼튼 리포좀 비타민C",
@@ -608,7 +608,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1774244100.000000",
+  "ts": "1774244126.449859",
   "date": "2026-03-23",
   "author": "Jake",
   "kind": "신규발주",
@@ -617,7 +617,7 @@
   "qty": 10000,
   "unit": "set",
   "due": "04/29(예상)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774244100000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774244126449859",
   "match": "full",
   "matchKey": "S43",
   "matchName": "시오레 PDRN 200 어드밴스드",
@@ -627,7 +627,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1773912600.000000",
+  "ts": "1773912601.930409",
   "date": "2026-03-19",
   "author": "Silvia",
   "kind": "재발주",
@@ -636,7 +636,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "26.05.12",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773912600000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773912601930409",
   "match": "full",
   "matchKey": "S10",
   "matchName": "코랄칼마디 K2",
@@ -646,7 +646,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1773907320.000000",
+  "ts": "1773907332.061209",
   "date": "2026-03-19",
   "author": "Jake",
   "kind": "재발주",
@@ -655,7 +655,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "26.05.22",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773907320000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773907332061209",
   "match": "full",
   "matchKey": "S8",
   "matchName": "파이토 레드큐민",
@@ -665,7 +665,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1773906720.000000",
+  "ts": "1773906745.341809",
   "date": "2026-03-19",
   "author": "Jake",
   "kind": "재발주",
@@ -674,7 +674,7 @@
   "qty": 15000,
   "unit": "set",
   "due": "26.06.05(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773906720000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773906745341809",
   "match": "name",
   "matchKey": "S18",
   "matchName": "유한 YDY 혈당케어 여주",
@@ -684,7 +684,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1773894600.000000",
+  "ts": "1773894646.524819",
   "date": "2026-03-19",
   "author": "Jake",
   "kind": "재발주",
@@ -693,7 +693,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "26.06.19(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773894600000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773894646524819",
   "match": "full",
   "matchKey": "S11",
   "matchName": "오큐클리어",
@@ -703,7 +703,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1773722940.000000",
+  "ts": "1773722956.271709",
   "date": "2026-03-17",
   "author": "Jake",
   "kind": "재발주",
@@ -712,7 +712,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "26.05.15(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773722940000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1773722956271709",
   "match": "full",
   "matchKey": "S5",
   "matchName": "풀스펙 멀티비타민",
@@ -722,7 +722,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1772673360.000000",
+  "ts": "1772673365.108059",
   "date": "2026-03-05",
   "author": "Jake",
   "kind": "재발주",
@@ -731,7 +731,7 @@
   "qty": 4500,
   "unit": "set",
   "due": "26.05.01(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1772673360000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1772673365108059",
   "match": "full",
   "matchKey": "S3",
   "matchName": "퓨어 리포좀 글루타치온",
@@ -741,7 +741,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1772529360.000000",
+  "ts": "1772529371.451269",
   "date": "2026-03-03",
   "author": "Silvia",
   "kind": "재발주",
@@ -750,7 +750,7 @@
   "qty": 10000,
   "unit": "set",
   "due": "26.05.15 (예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1772529360000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1772529371451269",
   "match": "full",
   "matchKey": "S14",
   "matchName": "썬 비타민D3 & K2",
@@ -760,7 +760,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1771980480.000000",
+  "ts": "1771980488.636499",
   "date": "2026-02-25",
   "author": "Silvia",
   "kind": "신규발주",
@@ -769,7 +769,7 @@
   "qty": 6700,
   "unit": "set",
   "due": null,
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1771980480000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1771980488636499",
   "match": "full",
   "matchKey": "S40",
   "matchName": "칼마디K2 미네랄",
@@ -779,7 +779,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1771919220.000000",
+  "ts": "1771912077.615149",
   "date": "2026-02-24",
   "author": "Jake",
   "kind": "재발주",
@@ -788,7 +788,7 @@
   "qty": 8200,
   "unit": "set",
   "due": "05월 01(금)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1771919220000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1771912077615149",
   "match": "full",
   "matchKey": "S28",
   "matchName": "마시는 마그네슘 200",
@@ -798,7 +798,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1771561200.000000",
+  "ts": "1771561203.972109",
   "date": "2026-02-20",
   "author": "Jake",
   "kind": "재발주",
@@ -807,7 +807,7 @@
   "qty": 50657,
   "unit": "set",
   "due": "26.03.31(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1771561200000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1771561203972109",
   "match": "full",
   "matchKey": "S6",
   "matchName": "폴라초임계오메가3",
@@ -817,7 +817,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1770604440.000000",
+  "ts": "1770604493.476499",
   "date": "2026-02-09",
   "author": "Jake",
   "kind": "초도발주",
@@ -826,7 +826,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "04/13(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1770604440000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1770604493476499",
   "match": "full",
   "matchKey": "S21",
   "matchName": "파이토 퀘르세틴 브로멜라인",
@@ -836,7 +836,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1769673060.000000",
+  "ts": "1769673083.267239",
   "date": "2026-01-29",
   "author": "Jake",
   "kind": "재발주",
@@ -845,7 +845,7 @@
   "qty": 8200,
   "unit": "set",
   "due": "04월 03(금)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769673060000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769673083267239",
   "match": "full",
   "matchKey": "S28",
   "matchName": "마시는 마그네슘 200",
@@ -855,7 +855,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1769652360.000000",
+  "ts": "1769652370.342879",
   "date": "2026-01-29",
   "author": "Jake",
   "kind": "재발주",
@@ -864,7 +864,7 @@
   "qty": 7000,
   "unit": "set",
   "due": "3월 중순(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769652360000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769652370342879",
   "match": "full",
   "matchKey": "S41",
   "matchName": "D를 담다 츄어블 2000IU",
@@ -874,7 +874,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1769647260.000000",
+  "ts": "1769647286.667439",
   "date": "2026-01-29",
   "author": "Jake",
   "kind": "신규발주",
@@ -883,7 +883,7 @@
   "qty": 4045,
   "unit": "set",
   "due": null,
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769647260000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769647286667439",
   "match": "full",
   "matchKey": "S38",
   "matchName": "클린 화이버",
@@ -893,7 +893,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1769576220.000000",
+  "ts": "1769576223.436199",
   "date": "2026-01-28",
   "author": "Jake",
   "kind": "신규발주",
@@ -902,7 +902,7 @@
   "qty": 3000,
   "unit": "set",
   "due": null,
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769576220000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769576223436199",
   "match": "full",
   "matchKey": "S42",
   "matchName": "오늘도 맑아연",
@@ -912,7 +912,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1769072100.000000",
+  "ts": "1769072105.429499",
   "date": "2026-01-22",
   "author": "Jake",
   "kind": "부자재",
@@ -921,7 +921,7 @@
   "qty": 7000,
   "unit": "장",
   "due": "26.01.28(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769072100000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1769072105429499",
   "match": "material",
   "matchKey": null,
   "matchName": null,
@@ -931,7 +931,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1768787640.000000",
+  "ts": "1768787699.320049",
   "date": "2026-01-19",
   "author": "Silvia",
   "kind": "재발주",
@@ -940,7 +940,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "2026.03.06",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1768787640000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1768787699320049",
   "match": "full",
   "matchKey": "S12",
   "matchName": "액티브헴철",
@@ -950,7 +950,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1768447320.000000",
+  "ts": "1768440148.401469",
   "date": "2026-01-15",
   "author": "Jake",
   "kind": "재발주",
@@ -959,7 +959,7 @@
   "qty": 6500,
   "unit": "set",
   "due": "26. 03.31(예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1768447320000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1768440148401469",
   "match": "none",
   "matchKey": null,
   "matchName": null,
@@ -969,7 +969,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1768287600.000000",
+  "ts": "1768287609.041509",
   "date": "2026-01-13",
   "author": "Jake",
   "kind": "재발주",
@@ -978,7 +978,7 @@
   "qty": 6000,
   "unit": "set",
   "due": "26. 04. 01",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1768287600000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1768287609041509",
   "match": "full",
   "matchKey": "S1",
   "matchName": "프로바이오 에스엘비(SLB)",
@@ -988,7 +988,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1767689160.000000",
+  "ts": "1767689175.469919",
   "date": "2026-01-06",
   "author": "Jake",
   "kind": "재발주",
@@ -997,7 +997,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "3월 중순 ~ 말일(03/14 목표)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1767689160000000",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1767689175469919",
   "match": "full",
   "matchKey": "S8",
   "matchName": "파이토 레드큐민",
@@ -1007,7 +1007,7 @@
   "origin": "domestic"
  },
  {
-  "ts": "1766122- 0",
+  "ts": "1766121914.113159",
   "date": "2025-12-19",
   "author": "Silvia",
   "kind": "신규발주",
@@ -1016,7 +1016,7 @@
   "qty": 5000,
   "unit": "set",
   "due": "26. 03. 06. (예정)",
-  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1766122",
+  "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1766121914113159",
   "match": "full",
   "matchKey": "S36",
   "matchName": "활성형엽산 800",
