@@ -17,7 +17,7 @@
   "생산",
   "입고"
  ],
- "synced_at": "2026-08-06T17:05:32+09:00",
+ "synced_at": "2026-08-06T16:10:51+09:00",
  "items": [
   {
    "key": "S1",
@@ -3010,7 +3010,7 @@
    "isOverseas": false,
    "origin": "domestic",
    "note": "단가 15,800→16,050원/set 인상 · 초도 발주 시 낮게 설정된 원료단가를 재발주부터 정상 반영 · 제조사 실수 인정으로 인상폭 1.5% 로 최소화",
-   "noteSrc": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782886484928209"
+   "noteSrc": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782900840000000"
   },
   {
    "ts": "1782883331.966169",
@@ -3131,7 +3131,7 @@
    "isOverseas": false,
    "origin": "domestic",
    "note": "발주수량 4,000→6,000set 상향 · 발주금액 22,660,000→33,990,000원(VAT+)",
-   "noteSrc": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1781584565749069"
+   "noteSrc": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1781584560000000"
   },
   {
    "ts": "1781583949.953869",
@@ -3209,7 +3209,7 @@
    "isOverseas": false,
    "origin": "domestic",
    "note": "제조사 이관 NPK→아미코젠 · 관능 개선(과립화 공정 추가, 당알콜 배합 조정) · 빌베리 원료 상표화 BilOrigin®",
-   "noteSrc": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779935827672989"
+   "noteSrc": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779935820000000"
   },
   {
    "ts": "1779935308.634529",
@@ -3486,7 +3486,7 @@
    "isOverseas": false,
    "origin": "domestic",
    "note": "아연 1.5mg→기능성 미표기 · 셀레늄 20mcg · 복숭아향 천연향으로 조정 · 케이스 디자인 수정",
-   "noteSrc": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774834867706229"
+   "noteSrc": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774834860000000"
   },
   {
    "ts": "1774244126.449859",
