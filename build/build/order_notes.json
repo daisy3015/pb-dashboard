@@ -1,0 +1,71 @@
+{
+  "_readme": [
+    "발주 건별 리뉴얼 여부 · 비고 오버레이.",
+    "출처: #상품기획-타임라인_발주의뢰 (C09FCV7UHF1) 원문. 추측·요약 없이 명시된 수치만 옮깁니다.",
+    "key = '발주일|제품명' — orders.json 의 date, product 와 정확히 일치해야 적용됩니다.",
+    "renewal:true 인 건에만 발주현황에 R 배지가 붙습니다.",
+    "적용되지 않은 key 는 build.py 가 '■ 경고' 로 알려줍니다."
+  ],
+  "notes": {
+    "2026-06-24|YDY 코랄칼마디 K2": {
+      "renewal": true,
+      "note": "제조사 이관 · 제조원가 5,960원(▼310원) · 코렌칼슘 500mg(▲100mg) · 산화+글루콘산마그네슘 250mg(▲50mg) · 비타민D3 25mcg(▲12.5mcg) · 비타민K2 원료 MenaQ7→K2VITAL · 정제 1,400mg/정(▲200mg)",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782277871857239"
+    },
+    "2026-05-21|YDY 콜라겐 비오틴 듀오": {
+      "renewal": true,
+      "note": "콜라겐 1,000달톤→평균 350달톤 · 워터믹스 섭취 가능하도록 수용도 개선 · 비타민C 100→200mg · 제조원가 10,500→7,750원/set · MOQ 6,700→5,000set(초도 6,000set) · 관능 내부평가 평균 7/10점 이상 (이상 약사님 의견 반영)",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779351173530979"
+    },
+    "2026-05-19|파이토알엑스 트리플 아르기닌 액티브": {
+      "renewal": true,
+      "note": "제조원가 7,950→7,200원/set(▼750원) · 발주비용 37,603,500→34,056,000원(3,547,500원 절감) · 맛 개선(아르기닌 특유취 개선, 믹스베리맛 유지) · 내용물 색 변경",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779157764645859"
+    },
+    "2026-03-31|액티브 비큐텐": {
+      "renewal": true,
+      "note": "정제 사이즈 1,000→800mg · 정제컬러 노란색 코팅→투명코팅 · 포장 병→PVDC 10구 PTP · 포장 변경에 따른 케이스 사이즈·디자인 수정 · 패키지 변경에 따른 상세페이지 수정",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774920324490829"
+    },
+    "2026-03-03|YDY 썬 비타민 D3&K2": {
+      "renewal": true,
+      "note": "PTP 디자인 리뉴얼 · 단상자 표시사항 통일을 위한 문구 수정 반영 예정",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1772529371451269"
+    },
+    "2026-01-19|YDY 액티브헴철": {
+      "renewal": true,
+      "note": "패키지 리뉴얼 · 견적가 8,870→9,220원/set(350원 인상) · 섭취 시 주의사항 앞 숫자 삭제 · 파마브로스 주소 업데이트 · 케이스 주표시면 소구문구 추가 · YDY 로고 수정 · PTP 소구문구 추가 / 최종단가 9,370원/set 확정(단상자 디자인 리뉴얼로 300→450원/pc, 3/27 공유)",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1768787699320049"
+    },
+    "2026-05-28|파이토알엑스 이뮨 빌베리": {
+      "renewal": false,
+      "note": "제조사 이관 NPK→아미코젠 · 관능 개선(과립화 공정 추가, 당알콜 배합 조정) · 빌베리 원료 상표화 BilOrigin®",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1779935820000000"
+    },
+    "2026-03-30|튼튼 리포좀 비타민 C": {
+      "renewal": false,
+      "note": "아연 1.5mg→기능성 미표기 · 셀레늄 20mcg · 복숭아향 천연향으로 조정 · 케이스 디자인 수정",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1774834860000000"
+    },
+    "2026-07-13|트룰리 알티지 오메가3 1100": {
+      "renewal": false,
+      "note": "오메가3 원료 인상 전 재고 확보 목적 · 20,000→23,900원/set 인상 예상",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1783933770505879"
+    },
+    "2026-07-01|YDY 피크노제놀 큐텐": {
+      "renewal": false,
+      "note": "단가 15,800→16,050원/set 인상 · 초도 발주 시 낮게 설정된 원료단가를 재발주부터 정상 반영 · 제조사 실수 인정으로 인상폭 1.5% 로 최소화",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782900840000000"
+    },
+    "2026-06-30|데이타민 활성형엽산 800": {
+      "renewal": false,
+      "note": "제조원가 4,400원(▼80원) · 발주금액 440,000원 절감 · 납기 앞당기기 위해 제조사와 조율 중",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1782808392215009"
+    },
+    "2026-06-16|튼튼 리포좀 비타민 C": {
+      "renewal": false,
+      "note": "발주수량 4,000→6,000set 상향 · 발주금액 22,660,000→33,990,000원(VAT+)",
+      "src": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1781584560000000"
+    }
+  }
+}

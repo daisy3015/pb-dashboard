@@ -1,0 +1,30 @@
+{
+ "sheetTitle": "제품 스펙 정리표",
+ "sheetUrl": "https://docs.google.com/spreadsheets/d/1_lMwc8qvXZdzx3qqscy2hNNGyDLZsZFbE0AyDxVcHTg/edit?gid=125038973",
+ "notionTitle": "상품기획 - 신제품 (1)",
+ "notionUrl": "https://app.notion.com/p/pharma-bros/3ab8c405e30180deae45cf45b757b659?v=7308c405e301822ea1d1088a735e0e5a",
+ "process": [
+  "컨셉 설정",
+  "샘플확인",
+  "제조사 선정",
+  "배합비 확정",
+  "품목제조신고증 진행",
+  "패키지 디자인",
+  "패키지 광고심의",
+  "상세페이지 기획",
+  "상세페이지 광고심의",
+  "발주",
+  "생산",
+  "입고"
+ ],
+ "slack": {
+  "channel": "#상품기획-타임라인_발주의뢰",
+  "channelId": "C09FCV7UHF1",
+  "url": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1"
+ },
+ "gmail": {
+  "label": "해외 발주",
+  "desc": "해외 공급사 발주 — 읽기 전용",
+  "url": "https://mail.google.com/mail/u/0/#search/from%3Aneeyaan.com+OR+from%3Auspharmatech.com"
+ }
+}

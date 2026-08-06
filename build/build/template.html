@@ -656,6 +656,16 @@ td.qt{text-align:right;font-weight:550;color:var(--tx)}
 .pobtn.sm{padding:4px 10px;font-size:10.5px;margin-left:auto;letter-spacing:0;
   box-shadow:none;text-transform:none}
 .pobtn.sm svg{width:11px;height:11px}
+.pobtn.mail{background:#c5443a;border-color:#c5443a;box-shadow:0 2px 8px -3px rgba(197,68,58,.5)}
+.pobtn.mail:hover{background:#a63930;border-color:#a63930}
+/* 발주 이력 각 줄 → 해당 슬랙 메시지 / 메일 원문으로 바로 이동 */
+.srcl{display:inline-flex;align-items:center;gap:4px;margin-left:6px;padding:.15rem .45rem;
+  border:1px solid var(--s4);border-radius:6px;background:var(--s1);
+  font-size:10px;font-weight:600;color:var(--tx2);text-decoration:none;white-space:nowrap;
+  vertical-align:middle;transition:.14s}
+.srcl:hover{background:#4A154B;border-color:#4A154B;color:#fff}
+.srcl.mail:hover{background:#c5443a;border-color:#c5443a}
+.srcl svg{width:10px;height:10px;fill:currentColor;flex:0 0 auto}
 .posec h4{gap:8px}
 .posec h4::after{order:-1}
 .posec{margin-top:22px}
@@ -1269,6 +1279,21 @@ const RNW_SVG=(size,title)=>
 const orderRnwTag=o=>o&&o.renewal
   ? RNW_SVG("sm", o.note ? `리뉴얼 — ${o.note}` : "리뉴얼 발주")
   : "";
+/* 발주 한 건 → 원문(슬랙 메시지 / 메일)으로 바로 가는 링크.
+   채널 주소가 아니라 그 발주 글의 permalink 입니다. */
+const SLACK_ICO=`<svg viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M5.1 15.2a2.1 2.1 0 1 1-2.1-2.1h2.1zM6.2 15.2a2.1 2.1 0 0 1 4.2 0v5.2a2.1 2.1 0 0 1-4.2 0z"/>
+  <path d="M8.3 5.1a2.1 2.1 0 1 1 2.1-2.1v2.1zM8.3 6.2a2.1 2.1 0 0 1 0 4.2H3.1a2.1 2.1 0 0 1 0-4.2z"/>
+  <path d="M18.9 8.3a2.1 2.1 0 1 1 2.1 2.1h-2.1zM17.8 8.3a2.1 2.1 0 0 1-4.2 0V3.1a2.1 2.1 0 0 1 4.2 0z"/>
+  <path d="M15.7 18.9a2.1 2.1 0 1 1-2.1 2.1v-2.1zM15.7 17.8a2.1 2.1 0 0 1 0-4.2h5.2a2.1 2.1 0 0 1 0 4.2z"/></svg>`;
+function srcLink(o){
+  if(!o) return "";
+  const mail=!!o.gmailUrl, u=o.gmailUrl||o.slackUrl;
+  if(!u) return "";
+  return `<a class="srcl${mail?" mail":""}" href="${esc(u)}" target="_blank" rel="noopener"
+     title="${mail?"이 발주 메일 열기":"이 발주 메시지 열기"}"
+     onclick="event.stopPropagation()">${mail?"":SLACK_ICO}${mail?"메일 원문":"원문"}</a>`;
+}
 
 /* ═══════════════════════════════════════════════════════════════════════
     발주 건 NEW 태그 — 날짜 차이(Date Diff) 계산
@@ -1868,21 +1893,27 @@ function openSheetSpec(r){
     </tbody></table>
     ${filled===0?`<div class="specnote">등록된 스펙 정보가 없습니다.</div>`:""}
     ${r.po?`<div class="posec">
-      <h4>발주 현황${myOrders.some(o=>!o.isOverseas)
-        ? `<a class="pobtn sm" href="${esc(DB.slack.url)}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M5.1 15.2a2.1 2.1 0 1 1-2.1-2.1h2.1zM6.2 15.2a2.1 2.1 0 0 1 4.2 0v5.2a2.1 2.1 0 0 1-4.2 0z"/>
-            <path d="M8.3 5.1a2.1 2.1 0 1 1 2.1-2.1v2.1zM8.3 6.2a2.1 2.1 0 0 1 0 4.2H3.1a2.1 2.1 0 0 1 0-4.2z"/>
-            <path d="M18.9 8.3a2.1 2.1 0 1 1 2.1 2.1h-2.1zM17.8 8.3a2.1 2.1 0 0 1-4.2 0V3.1a2.1 2.1 0 0 1 4.2 0z"/>
-            <path d="M15.7 18.9a2.1 2.1 0 1 1-2.1 2.1v-2.1zM15.7 17.8a2.1 2.1 0 0 1 0-4.2h5.2a2.1 2.1 0 0 1 0 4.2z"/>
-          </svg>Slack에서 보기</a>`
-        : ""}</h4>
+      <h4>발주 현황${(()=>{
+        /* 이 제품의 가장 최근 발주 원문으로 바로 이동.
+           원문 링크가 하나도 없을 때만 채널 주소로 떨어집니다. */
+        const src=myOrders.find(o=>orderLink(o));
+        if(src){
+          const mail=!!src.gmailUrl;
+          return `<a class="pobtn sm${mail?" mail":""}" href="${esc(orderLink(src))}" target="_blank" rel="noopener"
+            title="최근 발주 ${esc(src.date)} 원문 열기">${mail?"":SLACK_ICO}${mail?"메일 원문 보기":"Slack 원문 보기"}</a>`;
+        }
+        return myOrders.some(o=>!o.isOverseas)&&DB.slack&&DB.slack.url
+          ? `<a class="pobtn sm" href="${esc(DB.slack.url)}" target="_blank" rel="noopener"
+              title="원문 링크가 없어 채널로 이동합니다">${SLACK_ICO}Slack 발주채널</a>`
+          : "";
+      })()}</h4>
       <div class="pobox">
         <div class="poc"><div class="k">누적 발주 수량</div><div class="v">${nf(r.po.qty)}<small>${esc(r.po.unit||"set")}</small></div></div>
         <div class="poc"><div class="k">발주 횟수</div><div class="v">${r.po.count}<small>회</small></div></div>
         <div class="poc"><div class="k">최근 발주일</div><div class="v sm">${esc(r.po.last||"–")}</div></div>
       </div>
       ${myOrders.length?`<table class="spectbl slim"><tbody>${myOrders.map(o=>
-        `<tr><th>${esc(o.date)}</th><td>${nf(o.qty)} ${esc(o.unit)} · ${esc(o.vendor||"-")} · ${esc(o.author||"-")}${o.due?` · 납기 ${esc(fmtDue(o.due,o.date))}`:""}${orderNewTag(o)}${orderRnwTag(o)}${
+        `<tr><th>${esc(o.date)}</th><td>${nf(o.qty)} ${esc(o.unit)} · ${esc(o.vendor||"-")} · ${esc(o.author||"-")}${o.due?` · 납기 ${esc(fmtDue(o.due,o.date))}`:""}${orderNewTag(o)}${orderRnwTag(o)}${srcLink(o)}${
           o.note?`<div class="onote">${o.renewal?'<span class="nlbl">리뉴얼</span>':''}${esc(o.note)}</div>`:""}</td></tr>`
       ).join("")}</tbody></table>`:""}
     </div>`:""}`;
@@ -2240,8 +2271,8 @@ function renderPo(){
     $("#poTb").innerHTML=S.map(o=>{
       const t=o.matchKey?BY_KEY[o.matchKey]:null;
       return `<tr>
-        <td class="dt">${esc(o.date)}${orderNewTag(o)}</td>
-        <td class="nm">${t?`<button class="lk2" type="button" data-spec="${esc(o.matchKey)}" title="스펙 상세 보기">${esc(o.product)}</button>`:esc(o.product)}${t?newTag(t):""}${orderRnwTag(o)}${o.matchName&&o.matchName!==o.product?`<div style="font-size:9.5px;color:var(--tx3);font-weight:450">→ ${esc(o.matchName)}</div>`:""}</td>
+        <td class="dt">${esc(o.date)}${orderNewTag(o)}${orderRnwTag(o)}</td>
+        <td class="nm">${t?`<button class="lk2" type="button" data-spec="${esc(o.matchKey)}" title="스펙 상세 보기">${esc(o.product)}</button>`:esc(o.product)}${t?newTag(t):""}${o.matchName&&o.matchName!==o.product?`<div style="font-size:9.5px;color:var(--tx3);font-weight:450">→ ${esc(o.matchName)}</div>`:""}</td>
         <td>${esc(o.vendor||"–")}${o.match==="name"&&t?`<div style="font-size:9.5px;color:var(--wnd)">시트: ${esc(t.maker||"미입력")}</div>`:""}</td>
         <td class="qt">${o.qty==null?'<span class="dsh">–</span>':nf(o.qty)} <span style="color:var(--tx3);font-weight:450">${esc(o.unit||"")}</span></td>
         <td class="dt">${o.due?`<span title="원문: ${esc(o.due)}">${esc(fmtDue(o.due,o.date))}</span>`:'<span class="dsh">–</span>'}</td>
