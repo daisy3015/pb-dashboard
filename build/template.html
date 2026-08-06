@@ -1784,10 +1784,7 @@ function openNotionSpec(r){
     ["브랜드",           r.brand&&r.brand!=="미정"?esc(r.brand):NA],
     ["제조사",           cell(r.makers&&r.makers.length?r.makers:r.maker)],
     ["유형",             cell(r.ptype)],
-    ["시작일",           cell(r.start)],
-    ["입고 목표일",       r.target?`<span class="${isLate(r)?"ovd":""}">${esc(r.target)}</span>`:NA],
-    ["다음 확인 예정일",  cell(r.nextCheck)],
-    ["최근 편집일",       cell(r.edited)]
+    ["입고 목표일",       r.target?`<span class="${isLate(r)?"ovd":""}">${esc(r.target)}</span>`:NA]
   ];
   $("#mBody").innerHTML=`
     <table class="spectbl"><tbody>
