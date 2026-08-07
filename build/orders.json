@@ -1148,7 +1148,11 @@
   "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1785398779479729",
   "channel": "slack",
   "isOverseas": false,
-  "origin": "domestic"
+  "origin": "domestic",
+  "match": "none",
+  "matchKey": null,
+  "matchName": null,
+  "makerOk": null
  },
  {
   "ts": "1785219301.012769",
@@ -1163,6 +1167,10 @@
   "slackUrl": "https://pharmabroshq.slack.com/archives/C09FCV7UHF1/p1785219301012769",
   "channel": "slack",
   "isOverseas": false,
-  "origin": "domestic"
+  "origin": "domestic",
+  "match": "none",
+  "matchKey": null,
+  "matchName": null,
+  "makerOk": null
  }
 ]

@@ -2224,11 +2224,11 @@ const MATCH_TAG={
 };
 /* 대외비 보안 : 발주금액 컬럼은 노출하지 않습니다 */
 /* 연동 시스템 표기 없이 8개 컬럼만 노출 (출처 열 제외) */
+/* 비고 열은 숨김 — 비고 내용은 제품 상세 팝업의 '발주 이력'에서 계속 확인합니다 */
 const POCOLS=[{k:"date",t:"발주일"},{k:"product",t:"제품명",c:"nm"},
   {k:"vendor",t:"거래처 · 제조사"},
   {k:"qty",t:"발주수량",c:"qt"},{k:"due",t:"납기"},
-  {k:"match",t:"크로스체크"},{k:"kind",t:"구분"},{k:"author",t:"작성자"},
-  {k:"note",t:"비고",c:"ntg"}];
+  {k:"match",t:"크로스체크"},{k:"kind",t:"구분"},{k:"author",t:"작성자"}];
 const PPCOLS=[{k:"name",t:"제품명 (스프레드시트)",c:"nm"},{k:"brand",t:"브랜드"},{k:"maker",t:"제조원"},
   {k:"count",t:"발주 횟수",c:"qt"},{k:"qty",t:"누적 수량",c:"qt"},{k:"last",t:"최근 발주일"}];
 /* 발주 출처 탭 — 카운트는 출처 외 조건만 적용한 집합에서 자동 집계 */
@@ -2279,12 +2279,7 @@ function renderPo(){
         <td>${MATCH_TAG[o.match]||(o.isOverseas?'<span class="tg gray">대조 제외</span>':"")}</td>
         <td><span class="tg gray">${esc(o.kind)}</span></td>
         <td>${esc(o.author||"–")}</td>
-        <td class="ntg">${o.note
-          ? `<button type="button" class="ntgl" data-note="${esc(String(o.ts))}"
-               aria-expanded="false" title="비고 펼치기">보기<span class="cv">▾</span></button>`
-          : '<span class="dsh">–</span>'}</td>
-      </tr>${o.note?`<tr class="noterow" data-noterow="${esc(String(o.ts))}"><td colspan="${POCOLS.length}">${
-        o.renewal?'<span class="nlbl">리뉴얼</span>':''}${esc(o.note)}</td></tr>`:""}`;
+      </tr>`;
     }).join("");
     /* 비고 펼치기 — 행 단위 토글 */
     $$("#poTb .ntgl").forEach(btn=>btn.addEventListener("click",e=>{
