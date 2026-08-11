@@ -49,6 +49,19 @@ def norm(x):
     return re.sub(r"[^0-9a-z가-힣]", "", unicodedata.normalize("NFKC", str(x)).lower())
 
 
+def order_date_key(v):
+    """발주 키 날짜의 구분자와 앞뒤 공백을 정규화한다."""
+    s = re.sub(r"\s+", " ", unicodedata.normalize("NFKC", str(v or "")).strip())
+    m = re.match(r"^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})", s)
+    return f"{m.group(1)}-{int(m.group(2)):02d}-{int(m.group(3)):02d}" if m else s
+
+
+def order_product_key(v):
+    """제품명 앞뒤·중복 공백과 표기 기호를 정규화한다."""
+    s = re.sub(r"\s+", " ", unicodedata.normalize("NFKC", str(v or "")).strip())
+    return norm(s)
+
+
 def datepart(v):
     """'2026-07-29 06:16:12Z' / '2026-07-29T...' → '2026-07-29'"""
     if not v:
@@ -182,13 +195,23 @@ def apply_order_notes(orders, notes_doc, warn):
     비고가 소리 없이 사라지는 사고를 막기 위해서다.
     """
     notes = (notes_doc or {}).get("notes", {})
-    index = {f'{o.get("date")}|{o.get("product")}': o for o in orders}
+    index = {}
+    for o in orders:
+        key = (order_date_key(o.get("date")), order_product_key(o.get("product")))
+        index.setdefault(key, []).append(o)
     hit = 0
     for key, meta in notes.items():
-        o = index.get(key)
-        if o is None:
+        raw_date, raw_product = str(key).split("|", 1) if "|" in str(key) else ("", str(key))
+        candidates = index.get((order_date_key(raw_date), order_product_key(raw_product)), [])
+        if not candidates:
+            date_key, product_key = order_date_key(raw_date), order_product_key(raw_product)
+            candidates = [o for (d, p), rows in index.items()
+                          if d == date_key and product_key and (product_key in p or p in product_key)
+                          for o in rows]
+        if len(candidates) != 1:
             warn.append(f"발주 비고 미적용(키 불일치): {key} — order_notes.json 확인 필요")
             continue
+        o = candidates[0]
         if meta.get("note"):
             o["note"] = meta["note"]
         if meta.get("renewal"):

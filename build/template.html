@@ -666,6 +666,7 @@ td.qt{text-align:right;font-weight:550;color:var(--tx)}
   vertical-align:middle;transition:.14s}
 .srcl:hover{background:#4A154B;border-color:#4A154B;color:#fff}
 .srcl.mail:hover{background:#c5443a;border-color:#c5443a}
+.srcl.off{color:var(--tx3);background:var(--s2);cursor:not-allowed}
 .srcl svg{width:10px;height:10px;fill:currentColor;flex:0 0 auto}
 .posec h4{gap:8px}
 .posec h4::after{order:-1}
@@ -1291,8 +1292,8 @@ function srcLink(o){
   if(!o) return "";
   const mail=!!o.gmailUrl;
   const slack=/^https:\/\/pharmabroshq\.slack\.com\/archives\//i;
-  const u=mail?o.gmailUrl:[o.noteSrc,o.slackUrl].find(v=>slack.test(String(v||"")))
-    ||(DB.slack&&DB.slack.url)||"https://pharmabroshq.slack.com/archives/C09FCV7UHF1";
+  const u=mail?o.gmailUrl:[o.noteSrc,o.slackUrl].find(v=>slack.test(String(v||"")));
+  if(!u) return `<span class="srcl off" title="매칭된 원문 링크가 없습니다">원문 없음</span>`;
   return `<a class="srcl${mail?" mail":""}" href="${esc(u)}" target="_blank" rel="noopener noreferrer"
      title="${mail?"이 발주 메일 열기":"이 발주 메시지 열기"}"
      onclick="event.stopPropagation()">${mail?"":SLACK_ICO}${mail?"메일 원문":"원문"}</a>`;
@@ -1905,10 +1906,7 @@ function openSheetSpec(r){
           return `<a class="pobtn sm${mail?" mail":""}" href="${esc(orderLink(src))}" target="_blank" rel="noopener noreferrer"
             title="최근 발주 ${esc(src.date)} 원문 열기">${mail?"":SLACK_ICO}${mail?"메일 원문 보기":"Slack 원문 보기"}</a>`;
         }
-        return myOrders.some(o=>!o.isOverseas)&&DB.slack&&DB.slack.url
-          ? `<a class="pobtn sm" href="${esc(DB.slack.url)}" target="_blank" rel="noopener"
-              title="원문 링크가 없어 채널로 이동합니다">${SLACK_ICO}Slack 발주채널</a>`
-          : "";
+        return "";
       })()}</h4>
       <div class="pobox">
         <div class="poc"><div class="k">누적 발주 수량</div><div class="v">${nf(r.po.qty)}<small>${esc(r.po.unit||"set")}</small></div></div>
