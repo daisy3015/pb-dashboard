@@ -514,8 +514,9 @@ h1,h2,h3,h4{font-weight:600;letter-spacing:-.028em;margin:0}
   margin-left:5px;vertical-align:middle;flex:0 0 auto;box-sizing:border-box}
 .nbadge.sm{font-size:.625rem;padding:.15rem .4rem;border-radius:5px}
 .nbadge.lg{font-size:.75rem;padding:.25rem .6rem;border-radius:6px}
+.rbadge.sm,.srcl{height:24px;min-height:24px;padding:0 .6rem;border-radius:6px;font-size:.75rem;line-height:1;vertical-align:middle;box-sizing:border-box}
 /* R 배지 — 리뉴얼 발주 건. NEW 와 같은 규격, 색으로만 구분합니다 */
-.rbadge{display:inline-flex;align-items:center;justify-content:center;
+  font-weight:600;color:var(--tx2);text-decoration:none;white-space:nowrap;
   line-height:1;padding:.2rem .5rem;font-size:.6875rem;font-weight:700;border-radius:6px;
   background:var(--rn);color:#fff;letter-spacing:.05em;white-space:nowrap;
   margin-left:5px;vertical-align:middle;flex:0 0 auto;box-sizing:border-box}
@@ -659,7 +660,7 @@ td.qt{text-align:right;font-weight:550;color:var(--tx)}
 .pobtn.mail{background:#c5443a;border-color:#c5443a;box-shadow:0 2px 8px -3px rgba(197,68,58,.5)}
 .pobtn.mail:hover{background:#a63930;border-color:#a63930}
 /* 발주 이력 각 줄 → 해당 슬랙 메시지 / 메일 원문으로 바로 이동 */
-.srcl{display:inline-flex;align-items:center;gap:4px;margin-left:6px;padding:.15rem .45rem;
+.srcl{display:inline-flex;align-items:center;gap:4px;margin-left:6px;
   border:1px solid var(--s4);border-radius:6px;background:var(--s1);
   font-size:10px;font-weight:600;color:var(--tx2);text-decoration:none;white-space:nowrap;
   vertical-align:middle;transition:.14s}
@@ -1288,9 +1289,11 @@ const SLACK_ICO=`<svg viewBox="0 0 24 24" aria-hidden="true">
   <path d="M15.7 18.9a2.1 2.1 0 1 1-2.1 2.1v-2.1zM15.7 17.8a2.1 2.1 0 0 1 0-4.2h5.2a2.1 2.1 0 0 1 0 4.2z"/></svg>`;
 function srcLink(o){
   if(!o) return "";
-  const mail=!!o.gmailUrl, u=o.gmailUrl||o.slackUrl;
-  if(!u) return "";
-  return `<a class="srcl${mail?" mail":""}" href="${esc(u)}" target="_blank" rel="noopener"
+  const mail=!!o.gmailUrl;
+  const slack=/^https:\/\/pharmabroshq\.slack\.com\/archives\//i;
+  const u=mail?o.gmailUrl:[o.noteSrc,o.slackUrl].find(v=>slack.test(String(v||"")))
+    ||(DB.slack&&DB.slack.url)||"https://pharmabroshq.slack.com/archives/C09FCV7UHF1";
+  return `<a class="srcl${mail?" mail":""}" href="${esc(u)}" target="_blank" rel="noopener noreferrer"
      title="${mail?"이 발주 메일 열기":"이 발주 메시지 열기"}"
      onclick="event.stopPropagation()">${mail?"":SLACK_ICO}${mail?"메일 원문":"원문"}</a>`;
 }
@@ -1867,7 +1870,7 @@ function openSheetSpec(r){
   const st=stageOf(r.status2);
   $("#mTags").innerHTML=(r.ptype?`<span class="tg lg gray">${esc(r.ptype)}</span>`:"")
     +(isNew(r)?NEW_SVG("lg",`등록 ${ageDays(r)}일차 · 7일 후 자동 해제`):"");
-  const orderLink=o=>o.gmailUrl||o.slackUrl||null;
+  const orderLink=o=>o.gmailUrl||o.noteSrc||o.slackUrl||null;
   const myOrders=recentOrders().filter(o=>o.matchKey===r.key).sort((a,b)=>b.date.localeCompare(a.date));
   /* ★ 스펙 표 : 지정된 11개 항목만 · 키-값 테이블 구조 (대외비 금액 항목 없음) */
   const SPEC_ROWS=[
@@ -1899,7 +1902,7 @@ function openSheetSpec(r){
         const src=myOrders.find(o=>orderLink(o));
         if(src){
           const mail=!!src.gmailUrl;
-          return `<a class="pobtn sm${mail?" mail":""}" href="${esc(orderLink(src))}" target="_blank" rel="noopener"
+          return `<a class="pobtn sm${mail?" mail":""}" href="${esc(orderLink(src))}" target="_blank" rel="noopener noreferrer"
             title="최근 발주 ${esc(src.date)} 원문 열기">${mail?"":SLACK_ICO}${mail?"메일 원문 보기":"Slack 원문 보기"}</a>`;
         }
         return myOrders.some(o=>!o.isOverseas)&&DB.slack&&DB.slack.url
@@ -1913,7 +1916,7 @@ function openSheetSpec(r){
         <div class="poc"><div class="k">최근 발주일</div><div class="v sm">${esc(r.po.last||"–")}</div></div>
       </div>
       ${myOrders.length?`<table class="spectbl slim"><tbody>${myOrders.map(o=>
-        `<tr><th>${esc(o.date)}</th><td>${nf(o.qty)} ${esc(o.unit)} · ${esc(o.vendor||"-")} · ${esc(o.author||"-")}${o.due?` · 납기 ${esc(fmtDue(o.due,o.date))}`:""}${orderNewTag(o)}${orderRnwTag(o)}${srcLink(o)}${
+        `<tr><th>${esc(o.date)}</th><td>${nf(o.qty)} ${esc(o.unit)} · ${esc(o.vendor||"-")} · ${esc(o.author||"-")}${o.due?` · 납기 ${esc(fmtDue(o.due,o.date))}`:""}${srcLink(o)}${orderRnwTag(o)}${orderNewTag(o)}${
           o.note?`<div class="onote">${o.renewal?'<span class="nlbl">리뉴얼</span>':''}${esc(o.note)}</div>`:""}</td></tr>`
       ).join("")}</tbody></table>`:""}
     </div>`:""}`;
