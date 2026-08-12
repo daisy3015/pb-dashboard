@@ -25,6 +25,7 @@
  "gmail": {
   "label": "해외 발주",
   "desc": "해외 공급사 발주 — 읽기 전용",
-  "url": "https://mail.google.com/mail/u/0/#search/from%3Aneeyaan.com+OR+from%3Auspharmatech.com"
+  "url": "https://mail.google.com/mail/u/0/#search/from%3Aneeyaan.com+OR+from%3Auspharmatech.com",
+  "senders": ["neeyaan.com", "uspharmatech.com"]
  }
 }

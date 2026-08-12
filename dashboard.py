@@ -27,6 +27,14 @@ UI 는 건드리지 않습니다 (build/template.html 그대로 사용).
 구글시트도 노션과 마찬가지로 조회 시점마다 CSV 를 직접 받아와 build/sheet.json 에
 병합합니다(스펙 필드만 갱신 — sync_sheet.py 와 동일 규칙). 발주 데이터는 기존
 build/orders.json 을 그대로 읽습니다.
+
+슬랙·Gmail 실시간 발주 수집 (선택)
+--------------------------------
+환경변수 REALTIME_SYNC=1 이면 build/sync_realtime_data.py 의 수집 루프를
+백그라운드 스레드로 함께 띄웁니다. 이 스레드가 build/orders.json 을 갱신하면
+위 State.get() 이 다음 조회 때 그 파일을 다시 읽으므로 별도 연동 코드가
+필요 없습니다. 필요한 환경변수와 위험 고지는 build/sync_realtime_data.py
+모듈독스트링과 .env.example 을 참고하세요.
 """
 import argparse
 import base64
@@ -573,6 +581,17 @@ def main():
             "  (정말 인증 없이 열려면 --insecure)")
     if is_public and auth is None:
         log("!! 경고: 인증 없이 외부에 열려 있습니다 — 아무나 볼 수 있습니다")
+
+    if os.environ.get("REALTIME_SYNC") == "1":
+        try:
+            sys.path.insert(0, str(BUILD))
+            import sync_realtime_data as RT
+            RT.start_background_loop(
+                interval_min=float(os.environ.get("REALTIME_SYNC_INTERVAL_MIN", "2")),
+                lookback_min=float(os.environ.get("REALTIME_SYNC_LOOKBACK_MIN", "180")),
+            )
+        except Exception as e:                              # noqa: BLE001
+            log(f"실시간 수집 스레드를 시작하지 못했습니다 — {e}")
 
     httpd = ThreadingHTTPServer((args.host, args.port), make_handler(state, auth))
     shown = "127.0.0.1" if args.host in ("0.0.0.0", "") else args.host

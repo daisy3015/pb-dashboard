@@ -1,0 +1,8 @@
+# 비밀값 — 절대 커밋하지 않습니다
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc

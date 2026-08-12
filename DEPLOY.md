@@ -90,13 +90,76 @@ fly open
 |---|---|---|
 | **노션** (개발 파이프라인) | 11 | **실시간** — 페이지 열 때마다 API 조회 (최소 간격 120초) |
 | 구글시트 (제품 스펙) | 55 | 저장소의 `build/sheet.json` — push 해야 반영 |
-| 슬랙 (발주) | 62 | 저장소의 `build/orders.json` — push 해야 반영 |
+| 슬랙·Gmail (발주) | 62 | 기본은 저장소의 `build/orders.json` — push 해야 반영. **`REALTIME_SYNC=1` 로 켜면 아래 5-1 처럼 자동 수집도 가능** |
 
 즉 **기존 일일 갱신 작업이 없어지지는 않습니다.** 다만 노션 부분은 자동이 되고,
 `main` 에 push 하면 Render 가 알아서 재배포하므로 "빌드해서 index.html 올리기" 단계는 사라집니다.
 
-시트·발주까지 실시간으로 만들 수 있습니다(구글 서비스 계정 + 슬랙 봇 토큰). 다만 그러면
-사람이 오타·매칭 오류를 잡는 지점이 사라지므로, 발주 쪽은 지금처럼 스냅샷으로 두는 편이 안전합니다.
+---
+
+## 5-1. 슬랙·Gmail 발주 실시간 자동 수집 (선택, 기본 꺼짐)
+
+`build/sync_realtime_data.py` 가 슬랙 발주 채널과 해외 발주 메일함을 직접 조회해
+`build/orders.json` 에 새 발주를 추가하고, `build/build.py` 로 재빌드한 뒤
+git commit·push 까지 자동으로 합니다. `REALTIME_SYNC=1` 로 켜면 `dashboard.py`
+프로세스 안에서 백그라운드 스레드로 함께 돕니다 — 별도 서비스를 띄울 필요가 없습니다.
+
+**먼저 읽어두세요 — 이 기능은 위 3번째 문단의 안전장치를 일부 되돌립니다.**
+슬랙·Gmail 자유 텍스트를 정규식으로 파싱하므로 오인식 가능성이 있습니다.
+그래서 제품명·수량·납기일 중 하나라도 확신할 수 없는 건은 **조용히 버리지
+않고, 대시보드에 "확인필요" 배지를 붙여 반영합니다** (`needsReview: true`).
+Gmail 은 발주처마다 메일 형식이 달라 신뢰도가 항상 낮으므로 파싱 결과와
+무관하게 매번 확인필요로 표시됩니다. **이 배지가 붙은 건은 사람이 주기적으로
+확인해야 합니다** — 자동화가 그 확인 자체를 없애주지는 않습니다.
+
+### 필요한 것
+
+1. **슬랙 봇 토큰** — https://api.slack.com/apps 에서 앱 생성 →
+   OAuth & Permissions 에서 스코프 `channels:history`(비공개 채널이면
+   `groups:history`) · `channels:read` · `users:read` 추가 → 설치 후
+   `xoxb-...` 토큰 복사 → **반드시 대상 채널에 봇을 초대** (`/invite @봇이름`)
+2. **Gmail 앱 비밀번호** — 해외 발주 메일함 계정에서 2단계 인증을 켠 뒤
+   https://myaccount.google.com/apppasswords 에서 발급
+3. **GitHub PAT** (`GITHUB_PUSH_TOKEN`) — Render/Fly 배포 환경의 체크아웃에는
+   기본적으로 push 권한이 없습니다. Fine-grained PAT 을 이 저장소 하나에만,
+   `Contents: Read and write` 권한만 부여해 발급하세요
+
+### 환경변수 (Render "Environment" 탭 / `fly secrets set` 으로 추가)
+
+```
+SLACK_BOT_TOKEN=xoxb-...
+GMAIL_USER=you@yourcompany.com
+GMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx
+GITHUB_PUSH_TOKEN=github_pat_...
+REALTIME_SYNC=1
+REALTIME_SYNC_INTERVAL_MIN=2
+REALTIME_SYNC_LOOKBACK_MIN=180
+```
+
+`.env.example` 을 참고하세요. 로컬에서는 `.env` 파일로 관리해도 되지만
+(`sync_realtime_data.py` 가 `python-dotenv` 없이도 직접 읽습니다),
+**`.env` 자체는 절대 커밋하지 마세요** (`.gitignore` 에 이미 등록돼 있습니다).
+
+### 배포 전 로컬 확인
+
+```bash
+export SLACK_BOT_TOKEN='xoxb-...'
+python3 build/sync_realtime_data.py --dry-run     # 조회·파싱만, 저장/빌드/커밋 없음
+python3 build/sync_realtime_data.py --no-git      # orders.json/빌드까지만, git push 생략
+```
+
+### 알려진 한계
+
+- **Fly 배포 시 `git` 바이너리가 필요합니다** — `Dockerfile` 에 이미 설치 단계를
+  추가해 두었지만, 실제 컨테이너에서 `git push` 가 되는지는 배포 후 로그로
+  확인하세요.
+- Render 는 서비스 재배포·재시작 시 체크아웃을 새로 받으므로, 직전에
+  실시간 수집이 커밋한 내용이 다음 배포에서 덮어써지지 않는지 확인이
+  필요합니다(보통은 git push 가 원격에 먼저 반영되므로 문제 없지만, 아직
+  실제 운영 트래픽으로 검증되지 않은 새 기능입니다).
+- 여러 프로세스(이 스레드 + `.github/workflows/deploy.yml`)가 동시에
+  `main` 에 push 할 수 있어, push 실패 시 rebase 재시도를 넣어뒀지만
+  경합이 잦으면 로그에서 "git push 3회 실패" 를 확인하세요.
 
 ---
 

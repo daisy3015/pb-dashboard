@@ -24,3 +24,7 @@ services:
         value: pb
       - key: DASHBOARD_PASSWORD
         generateValue: true    # ← Render 가 무작위 비밀번호를 만들어 줍니다
+    # 슬랙·Gmail 실시간 발주 수집(선택 기능)은 이 파일에 넣지 않습니다 —
+    # 켜고 싶을 때만 Render 대시보드 Environment 탭에서 직접 추가하세요
+    # (SLACK_BOT_TOKEN, GMAIL_USER, GMAIL_APP_PASSWORD, GITHUB_PUSH_TOKEN,
+    #  REALTIME_SYNC=1). 자세한 절차는 DEPLOY.md 참고.
