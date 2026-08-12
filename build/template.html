@@ -571,9 +571,10 @@ tbody tr:hover{background:var(--acs)}
 tbody tr.late td:first-child{box-shadow:inset 3px 0 0 var(--dn)}
 td.nm{font-weight:550;min-width:208px;color:var(--tx)}
 /* 발주 목록 — '→ 실제매칭명' · '시트: 미입력' 같은 서브텍스트 유무와 무관하게
-   탭(전체/국내발주) 전환 시에도 행 높이가 흔들리지 않도록 고정하고, 셀 내용은
-   vertical-align:middle 로 수직 중앙 정렬합니다. */
-#poTb tr{height:51px}
+   탭(전체/국내발주) 전환 시에도 행이 깔끔하게 정렬되도록, 고정 height 대신
+   여유 있는 상하 패딩 + vertical-align:middle 로 자연스러운 높이를 확보합니다.
+   (고정 height 는 폰트/브라우저에 따라 내용이 잘릴 수 있어 사용하지 않습니다) */
+#poTb td{padding:12px 13px;vertical-align:middle}
 /* ── 클릭 가능한 제품명 링크 ── */
 .lk2{background:none;border:0;padding:0;margin:0;font:inherit;font-weight:550;color:var(--tx);
   cursor:pointer;text-align:left;letter-spacing:var(--ls);text-decoration:none;
