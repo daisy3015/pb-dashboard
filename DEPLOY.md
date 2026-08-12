@@ -90,27 +90,31 @@ fly open
 |---|---|---|
 | **노션** (개발 파이프라인) | 11 | **실시간** — 페이지 열 때마다 API 조회 (최소 간격 120초) |
 | 구글시트 (제품 스펙) | 55 | 저장소의 `build/sheet.json` — push 해야 반영 |
-| 슬랙·Gmail (발주) | 62 | 기본은 저장소의 `build/orders.json` — push 해야 반영. **`REALTIME_SYNC=1` 로 켜면 아래 5-1 처럼 자동 수집도 가능** |
+| 슬랙 (국내 발주) | 62 | 기본은 저장소의 `build/orders.json` — push 해야 반영. **`REALTIME_SYNC=1` 로 켜면 아래 5-1 처럼 자동 수집도 가능** |
+| Gmail (해외 발주) | — | 구글 시트 Apps Script 트리거로 별도 자동화 (이 문서가 다루는 범위 밖) |
 
 즉 **기존 일일 갱신 작업이 없어지지는 않습니다.** 다만 노션 부분은 자동이 되고,
 `main` 에 push 하면 Render 가 알아서 재배포하므로 "빌드해서 index.html 올리기" 단계는 사라집니다.
 
 ---
 
-## 5-1. 슬랙·Gmail 발주 실시간 자동 수집 (선택, 기본 꺼짐)
+## 5-1. 슬랙 발주 실시간 자동 수집 (선택, 기본 꺼짐)
 
-`build/sync_realtime_data.py` 가 슬랙 발주 채널과 해외 발주 메일함을 직접 조회해
+`build/sync_realtime_data.py` 가 슬랙 발주 채널을 직접 조회해
 `build/orders.json` 에 새 발주를 추가하고, `build/build.py` 로 재빌드한 뒤
 git commit·push 까지 자동으로 합니다. `REALTIME_SYNC=1` 로 켜면 `dashboard.py`
 프로세스 안에서 백그라운드 스레드로 함께 돕니다 — 별도 서비스를 띄울 필요가 없습니다.
 
+해외 발주(Gmail)는 이 스크립트가 다루지 않습니다 — 구글 시트 Apps Script
+트리거로 별도 자동화되어 있고, 그 시트를 대시보드에 반영하는 절차는 별도
+문서화 예정입니다.
+
 **먼저 읽어두세요 — 이 기능은 위 3번째 문단의 안전장치를 일부 되돌립니다.**
-슬랙·Gmail 자유 텍스트를 정규식으로 파싱하므로 오인식 가능성이 있습니다.
+슬랙 자유 텍스트를 정규식으로 파싱하므로 오인식 가능성이 있습니다.
 그래서 제품명·수량·납기일 중 하나라도 확신할 수 없는 건은 **조용히 버리지
 않고, 대시보드에 "확인필요" 배지를 붙여 반영합니다** (`needsReview: true`).
-Gmail 은 발주처마다 메일 형식이 달라 신뢰도가 항상 낮으므로 파싱 결과와
-무관하게 매번 확인필요로 표시됩니다. **이 배지가 붙은 건은 사람이 주기적으로
-확인해야 합니다** — 자동화가 그 확인 자체를 없애주지는 않습니다.
+**이 배지가 붙은 건은 사람이 주기적으로 확인해야 합니다** — 자동화가 그
+확인 자체를 없애주지는 않습니다.
 
 ### 필요한 것
 
@@ -118,9 +122,7 @@ Gmail 은 발주처마다 메일 형식이 달라 신뢰도가 항상 낮으므�
    OAuth & Permissions 에서 스코프 `channels:history`(비공개 채널이면
    `groups:history`) · `channels:read` · `users:read` 추가 → 설치 후
    `xoxb-...` 토큰 복사 → **반드시 대상 채널에 봇을 초대** (`/invite @봇이름`)
-2. **Gmail 앱 비밀번호** — 해외 발주 메일함 계정에서 2단계 인증을 켠 뒤
-   https://myaccount.google.com/apppasswords 에서 발급
-3. **GitHub PAT** (`GITHUB_PUSH_TOKEN`) — Render/Fly 배포 환경의 체크아웃에는
+2. **GitHub PAT** (`GITHUB_PUSH_TOKEN`) — Render/Fly 배포 환경의 체크아웃에는
    기본적으로 push 권한이 없습니다. Fine-grained PAT 을 이 저장소 하나에만,
    `Contents: Read and write` 권한만 부여해 발급하세요
 
@@ -128,8 +130,6 @@ Gmail 은 발주처마다 메일 형식이 달라 신뢰도가 항상 낮으므�
 
 ```
 SLACK_BOT_TOKEN=xoxb-...
-GMAIL_USER=you@yourcompany.com
-GMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx
 GITHUB_PUSH_TOKEN=github_pat_...
 REALTIME_SYNC=1
 REALTIME_SYNC_INTERVAL_MIN=2

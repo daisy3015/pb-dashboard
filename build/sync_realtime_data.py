@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-슬랙·Gmail 발주 실시간 수집
-==========================
-슬랙 발주 채널(build/config.json 의 slack.channelId)과 해외 발주 메일함
-(config.json 의 gmail.senders)을 직접 조회해 build/orders.json 에 새 발주를
-누적 추가하고, build/build.py 로 index.html 을 재빌드한 뒤 git commit·push
-까지 자동으로 수행합니다.
+슬랙 발주 실시간 수집
+====================
+슬랙 발주 채널(build/config.json 의 slack.channelId)을 직접 조회해
+build/orders.json 에 새 발주를 누적 추가하고, build/build.py 로 index.html 을
+재빌드한 뒤 git commit·push 까지 자동으로 수행합니다.
+
+해외 발주(Gmail)는 이 스크립트가 아니라 구글 시트 Apps Script 트리거로
+별도 자동화되어 있습니다 — 그 시트를 대시보드에 반영하는 부분은
+build/sync_sheet.py(또는 전용 스크립트)에서 처리합니다.
 
 ★ 읽어두세요 (build/DEPLOY.md 참고) ─────────────────────────────────────
 발주는 금액·수량이 걸린 데이터입니다. 이 스크립트는 사람이 슬랙 원문을
@@ -15,7 +18,6 @@
 `needsReview: true` 로 표시해 화면에 "확인필요" 배지로 남깁니다.
 **절대 조용히 버리지 않습니다** — 다만 조용히 자동 반영되는 것도 아니니,
 "확인필요" 배지가 붙은 건은 대시보드에서 주기적으로 사람이 확인해야 합니다.
-Gmail 은 원문 형식이 제각각이라 항상 확인 필요로 표시합니다.
 
 의존성은 표준 라이브러리만 사용합니다 (slack_sdk 대신 슬랙 Web API를
 urllib 로 직접 호출 — 이 저장소의 다른 스크립트들과 동일한 방침).
@@ -29,16 +31,11 @@ urllib 로 직접 호출 — 이 저장소의 다른 스크립트들과 동일�
 환경변수 (.env.example 참고):
     SLACK_BOT_TOKEN        슬랙 봇 토큰 (xoxb-...). 채널에 봇 초대 필요
                            스코프: channels:history(또는 groups:history), channels:read, users:read
-    GMAIL_USER             해외 발주 메일함 계정
-    GMAIL_APP_PASSWORD     위 계정의 구글 앱 비밀번호 (IMAP)
     GITHUB_PUSH_TOKEN      git push 용 GitHub PAT (Contents: read/write)
                            — 배포 환경(Render/Fly)에는 기본적으로 push 권한이 없습니다
 """
 import argparse
 import base64
-import email
-import email.utils
-import imaplib
 import json
 import os
 import re
@@ -50,7 +47,6 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
-from email.header import decode_header
 from pathlib import Path
 
 BUILD = Path(__file__).resolve().parent
@@ -226,115 +222,7 @@ def fetch_slack_orders(token, channel_id, channel_url, oldest_ts=None, limit=200
 
 
 # ══════════════════════════════════════════════════════════════
-#  Gmail — IMAP + 앱 비밀번호 (표준 라이브러리 imaplib)
-#  본문 형식이 발주처마다 제각각이라 신뢰도가 낮다 — 그래서 파싱 결과와
-#  무관하게 needsReview=True 로 고정한다 (DEPLOY.md 의 안전장치 취지 유지).
-# ══════════════════════════════════════════════════════════════
-def decode_mime(s):
-    if not s:
-        return ""
-    parts = decode_header(s)
-    out = []
-    for text, enc in parts:
-        out.append(text.decode(enc or "utf-8", "replace") if isinstance(text, bytes) else text)
-    return "".join(out)
-
-
-def imap_or_query(field, values):
-    """IMAP SEARCH 의 OR 은 인자 2개만 받으므로 중첩해서 접는다."""
-    values = list(values)
-    if not values:
-        return None
-    expr = f'{field} "{values[-1]}"'
-    for v in reversed(values[:-1]):
-        expr = f'OR ({field} "{v}") ({expr})'
-    return expr
-
-
-QTY_RE = re.compile(r"([\d,]{2,})\s*(kg|set|ea|pcs|box|carton)\b", re.I)
-DUE_RE = re.compile(r"\b(20\d{2}[-/.]\d{1,2}[-/.]\d{1,2}|\d{1,2}\s+[A-Za-z]{3,9}\s+20\d{2})\b")
-
-
-def email_body_text(m):
-    if m.is_multipart():
-        for part in m.walk():
-            if part.get_content_type() == "text/plain" and not part.get_filename():
-                try:
-                    return part.get_payload(decode=True).decode(
-                        part.get_content_charset() or "utf-8", "replace")
-                except Exception:                          # noqa: BLE001
-                    continue
-        return ""
-    try:
-        return m.get_payload(decode=True).decode(m.get_content_charset() or "utf-8", "replace")
-    except Exception:                                       # noqa: BLE001
-        return ""
-
-
-def parse_gmail_message(m):
-    msg_id = m.get("Message-ID")
-    if not msg_id:
-        return None
-    subject = decode_mime(m.get("Subject")) or "(제목 없음)"
-    from_addr = decode_mime(m.get("From"))
-    try:
-        dt = email.utils.parsedate_to_datetime(m.get("Date")).astimezone(KST)
-    except Exception:                                       # noqa: BLE001
-        dt = datetime.now(KST)
-    body = email_body_text(m)
-
-    qty, unit = None, None
-    qm = QTY_RE.search(body)
-    if qm:
-        qty, unit = int(qm.group(1).replace(",", "")), qm.group(2)
-    dm = DUE_RE.search(body)
-    due = dm.group(1) if dm else None
-
-    mid = msg_id.strip("<>")
-    return {
-        "ts": f"gmail:{mid}",
-        "date": dt.strftime("%Y-%m-%d"),
-        "author": from_addr,
-        "kind": "발주",
-        "product": subject,
-        "vendor": from_addr,
-        "qty": qty, "unit": unit, "due": due,
-        "gmailUrl": f"https://mail.google.com/mail/u/0/#search/rfc822msgid%3A{urllib.parse.quote(mid)}",
-        "channel": "gmail", "isOverseas": True, "origin": "overseas",
-        "source": "realtime-gmail",
-        "needsReview": True,
-        "reviewReason": "해외 발주 메일 자동 수집 — 본문 직접 확인 필요",
-    }
-
-
-def fetch_gmail_orders(user, app_password, senders, lookback_days=14):
-    orders = []
-    with imaplib.IMAP4_SSL("imap.gmail.com") as imap:
-        imap.login(user, app_password)
-        imap.select("INBOX", readonly=True)
-        since = (datetime.now(KST) - timedelta(days=lookback_days)).strftime("%d-%b-%Y")
-        from_query = imap_or_query("FROM", senders)
-        query = f"(SINCE {since}) {from_query}" if from_query else f"(SINCE {since})"
-        typ, data = imap.search(None, query)
-        if typ != "OK":
-            raise RuntimeError(f"Gmail 검색 실패 — {typ}")
-        for uid in data[0].split():
-            typ, msg_data = imap.fetch(uid, "(RFC822)")
-            if typ != "OK" or not msg_data or not msg_data[0]:
-                continue
-            m = email.message_from_bytes(msg_data[0][1])
-            parsed = parse_gmail_message(m)
-            if parsed:
-                orders.append(parsed)
-    return orders
-
-
-def extract_senders_from_url(url):
-    return re.findall(r"from%3A([\w.\-]+)", url or "", flags=re.I)
-
-
-# ══════════════════════════════════════════════════════════════
-#  병합 — ts(슬랙) / gmail:<Message-ID> 로 중복 제거
+#  병합 — ts(슬랙 메시지 고유 시각) 로 중복 제거
 # ══════════════════════════════════════════════════════════════
 def merge_orders(existing, new_entries):
     known_ts = {o.get("ts") for o in existing}
@@ -412,11 +300,8 @@ def run_once(dry_run=False, no_git=False, lookback_min=180):
     load_dotenv()
     cfg = load_json(BUILD / "config.json", {}) or {}
     slack_cfg = cfg.get("slack") or {}
-    gmail_cfg = cfg.get("gmail") or {}
 
     slack_token = os.environ.get("SLACK_BOT_TOKEN")
-    gmail_user = os.environ.get("GMAIL_USER")
-    gmail_pw = os.environ.get("GMAIL_APP_PASSWORD")
 
     new_entries = []
 
@@ -431,20 +316,6 @@ def run_once(dry_run=False, no_git=False, lookback_min=180):
             log(f"슬랙 수집 실패 — {e}")
     else:
         log("SLACK_BOT_TOKEN 또는 config.json 의 slack.channelId 가 없어 슬랙 수집을 건너뜁니다")
-
-    if gmail_user and gmail_pw:
-        senders = gmail_cfg.get("senders") or extract_senders_from_url(gmail_cfg.get("url"))
-        if senders:
-            try:
-                got = fetch_gmail_orders(gmail_user, gmail_pw, senders)
-                log(f"Gmail — 발주처 메일 {len(got)}건 파싱")
-                new_entries += got
-            except Exception as e:                          # noqa: BLE001
-                log(f"Gmail 수집 실패 — {e}")
-        else:
-            log("config.json 의 gmail.senders 가 없어 Gmail 수집을 건너뜁니다")
-    else:
-        log("GMAIL_USER/GMAIL_APP_PASSWORD 가 없어 Gmail 수집을 건너뜁니다")
 
     if not new_entries:
         log("신규 항목 없음")
@@ -501,7 +372,7 @@ def start_background_loop(interval_min=2.0, lookback_min=180.0):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="슬랙·Gmail 발주 실시간 수집")
+    ap = argparse.ArgumentParser(description="슬랙 발주 실시간 수집")
     ap.add_argument("--loop", action="store_true", help="주기적으로 반복 실행 (기본은 1회)")
     ap.add_argument("--interval-min", type=float, default=2.0, help="--loop 반복 주기(분)")
     ap.add_argument("--lookback-min", type=float, default=180.0, help="슬랙 조회 시작 시각(분 전)")

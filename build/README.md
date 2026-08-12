@@ -39,7 +39,7 @@ git add index.html build/data.json build/notion.json build/sheet.json build/orde
 | `build.py` | 코드 | 빌드 스크립트. 아래 입력들을 합쳐 `index.html` 을 생성 |
 | `sync_sheet.py` | 코드 | 구글시트 CSV → `sheet.json` 스펙 필드 병합 (2B단계) |
 | `sync_orders.py` | 코드 | 슬랙 신규 발주 JSON → `orders.json` 추가 (2C단계, 사람/LLM이 추출한 JSON 입력) |
-| `sync_realtime_data.py` | 코드 | (선택) 슬랙·Gmail 을 직접 조회해 `orders.json` 자동 추가 + 빌드 + git push. `../DEPLOY.md` 5-1 참고 |
+| `sync_realtime_data.py` | 코드 | (선택) 슬랙을 직접 조회해 `orders.json` 자동 추가 + 빌드 + git push. `../DEPLOY.md` 5-1 참고. 해외 발주(Gmail)는 별도 Apps Script 자동화 |
 | `template.html` | 고정 | 대시보드 UI 원본. `__DB_JSON__` 자리에 데이터가 주입됨 |
 | `notion.json` | **매일 갱신** | 노션 조회 결과(`results` 배열). 2단계에서 덮어씀 |
 | `sheet.json` | **매일 갱신** | 구글시트 "제품 스펙 정리표". 2B단계에서 스펙 필드만 갱신 |
@@ -87,9 +87,10 @@ git add index.html build/data.json build/notion.json build/sheet.json build/orde
 * `needsReview: true` — 제품명·수량·납기일 중 확신할 수 없는 값이 있어
   대시보드에 **확인필요** 배지가 붙습니다. `false`/생략이면 배지 없음
 * `reviewReason` — 배지에 마우스를 올렸을 때 뜨는 사유 텍스트
-* `source` — `"realtime-slack"` / `"realtime-gmail"` (수집 경로 구분용, 화면에는 안 씀)
+* `source` — `"realtime-slack"` (수집 경로 구분용, 화면에는 안 씀). 해외 발주(Gmail)는
+  구글 시트 Apps Script 트리거로 별도 자동화되어 있어 이 필드 체계와는 다른
+  경로로 들어옵니다
 
-Gmail 로 들어온 건은 본문 형식이 제각각이라 항상 `needsReview: true` 입니다.
 확인 후 문제 없으면 `order_notes.json` 은 건드리지 말고 `orders.json` 에서
 해당 건의 `needsReview` 를 `false` 로, 값이 틀렸으면 직접 고치면 됩니다.
 
