@@ -1,0 +1,51 @@
+name: 대시보드 자동 재빌드
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rebuild-dashboard
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: index.html 재빌드
+        run: python build/build.py
+
+      - name: 변경 사항 커밋 및 푸시
+        env:
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+        run: |
+          set -e
+          git add index.html build/data.json
+          if git diff --cached --quiet; then
+            echo "변경 없음 — 커밋 생략"
+            exit 0
+          fi
+          git commit -m "자동 재빌드 (scheduled)"
+          for i in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "푸시 충돌 — 리베이스 후 재시도 ($i/3)"
+            git fetch origin main
+            git rebase origin/main
+          done
+          echo "푸시 3회 실패"
+          exit 1
