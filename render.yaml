@@ -1,0 +1,26 @@
+# Render 배포 설정 (Blueprint)
+# 저장소 최상단에 두면 Render 가 자동으로 읽습니다.
+#   https://dashboard.render.com → New → Blueprint → 이 저장소 선택
+#
+# NOTION_TOKEN 은 여기 적지 마세요. Render 대시보드에서 직접 입력합니다.
+services:
+  - type: web
+    name: pb-dashboard
+    runtime: python
+    plan: free
+    region: singapore          # 한국에서 가장 가까운 리전
+    branch: main
+    # 설치할 의존성이 없습니다 (표준 라이브러리만 사용)
+    buildCommand: python3 -c "import sys; print('python', sys.version)"
+    startCommand: python3 dashboard.py --host 0.0.0.0 --ttl 120
+    healthCheckPath: /healthz
+    autoDeploy: true           # main 에 push 하면 자동 재배포
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: NOTION_TOKEN
+        sync: false            # ← 대시보드에서 직접 입력 (저장소에 안 들어감)
+      - key: DASHBOARD_USER
+        value: pb
+      - key: DASHBOARD_PASSWORD
+        generateValue: true    # ← Render 가 무작위 비밀번호를 만들어 줍니다
