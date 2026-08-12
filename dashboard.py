@@ -13,7 +13,7 @@ build.py 로 index.html 을 만들어 깃허브에 올리는 과정이 필요 �
 옵션:
     --port 8000        포트
     --host 127.0.0.1   0.0.0.0 으로 두면 같은 와이파이의 다른 기기도 접속 가능
-    --ttl 60           노션 재조회 최소 간격(초). 새로고침 연타로 API 를 때리지 않게 함
+    --ttl 60           노션·구글시트 재조회 최소 간격(초). 새로고침 연타로 API 를 때리지 않게 함
     --export index.html   서버를 띄우지 않고 정적 파일 한 번만 생성 (build.py 대체)
     --once             한 번 조회해서 요약만 출력하고 종료 (연결 점검용)
 
@@ -24,11 +24,15 @@ api.notion.com 은 CORS 를 허용하지 않아 브라우저에서의 직접 호
 그래서 이 스크립트가 중간에서 대신 호출합니다 — 토큰은 서버 쪽에만 남습니다.
 
 UI 는 건드리지 않습니다 (build/template.html 그대로 사용).
-시트·발주 데이터는 기존 build/sheet.json · build/orders.json 을 그대로 읽습니다.
+구글시트도 노션과 마찬가지로 조회 시점마다 CSV 를 직접 받아와 build/sheet.json 에
+병합합니다(스펙 필드만 갱신 — sync_sheet.py 와 동일 규칙). 발주 데이터는 기존
+build/orders.json 을 그대로 읽습니다.
 """
 import argparse
 import base64
+import csv
 import hmac
+import io
 import json
 import os
 import re
@@ -45,12 +49,17 @@ ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "build"
 KST = timezone(timedelta(hours=9))
 
-# build.py 의 변환·매칭 로직을 그대로 재사용한다 (규칙을 두 벌 유지하지 않기 위해)
+# build.py / sync_sheet.py 의 변환·매칭·병합 로직을 그대로 재사용한다
+# (규칙을 두 벌 유지하지 않기 위해)
 sys.path.insert(0, str(BUILD))
 try:
     import build as B
 except ImportError as e:  # pragma: no cover
     sys.exit(f"중단: build/build.py 를 불러올 수 없습니다 — {e}")
+try:
+    import sync_sheet as SS
+except ImportError as e:  # pragma: no cover
+    sys.exit(f"중단: build/sync_sheet.py 를 불러올 수 없습니다 — {e}")
 
 NOTION_API = "https://api.notion.com/v1"
 NOTION_VERSION_NEW = "2025-09-03"   # data source 기반 (현행)
@@ -144,6 +153,35 @@ def fetch_pages(token, source_id):
 
 
 # ══════════════════════════════════════════════════════════════
+#  구글시트 (공개 CSV 내보내기 링크로 조회 — 인증 불필요)
+# ══════════════════════════════════════════════════════════════
+def sheet_csv_url(sheet_url):
+    m = re.search(r"/d/([a-zA-Z0-9_-]+)", sheet_url or "")
+    if not m:
+        raise RuntimeError(f"시트 URL 에서 문서 ID 를 찾을 수 없습니다 — {sheet_url}")
+    doc_id = m.group(1)
+    gid_m = re.search(r"gid=(\d+)", sheet_url or "")
+    gid = gid_m.group(1) if gid_m else "0"
+    return f"https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv&gid={gid}"
+
+
+def fetch_sheet_csv(sheet_url, timeout=30):
+    req = urllib.request.Request(sheet_csv_url(sheet_url),
+                                  headers={"User-Agent": "pb-dashboard/1.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            raw = r.read()
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f"HTTP {e.code}")
+    except urllib.error.URLError as e:
+        raise RuntimeError(f"연결 실패 — {e.reason}")
+    text = raw.decode("utf-8-sig", "replace")
+    if text.lstrip()[:200].lower().startswith(("<!doctype html", "<html")):
+        raise RuntimeError("HTML 응답을 받았습니다 — 시트가 비공개(로그인 필요) 상태일 수 있습니다")
+    return text
+
+
+# ══════════════════════════════════════════════════════════════
 #  노션 property → build.py 가 기대하는 납작한 행(row)
 #  (기존 SQL 조회 결과와 같은 모양: "이름", "Status 1",
 #   "date:입고 목표일:start", "담당자"=["user://..."] 등)
@@ -204,9 +242,7 @@ def page_to_row(page):
 # ══════════════════════════════════════════════════════════════
 #  DB 조립 — build.py main() 의 조립부와 동일한 규칙
 # ══════════════════════════════════════════════════════════════
-def assemble(rows):
-    cfg = load_json(BUILD / "config.json", "설정(config.json)")
-    sheet = load_json(BUILD / "sheet.json", "시트 스냅샷(sheet.json)")
+def assemble(rows, sheet, cfg):
     orders = load_json(BUILD / "orders.json", "발주 스냅샷(orders.json)")
     carry = load_json(BUILD / "carry.json", "보존값(carry.json)", {})
     order_notes = load_json(BUILD / "order_notes.json", "발주 비고(order_notes.json)", {})
@@ -309,6 +345,7 @@ class State:
         # 오판해 노션을 부르지 않고 옛 스냅샷을 내보내게 된다.
         self.fetched_at = None
         self.banner = None
+        self.cfg = load_json(BUILD / "config.json", "설정(config.json)", {})
 
         # 지난 실행 결과를 시작값으로 (build/data.json — build.py 와 같은 파일)
         try:
@@ -320,6 +357,26 @@ class State:
         except RuntimeError:
             pass
 
+    def _refresh_sheet(self):
+        """구글시트 CSV 를 조회해 sheet.json 에 병합한다.
+
+        스펙 필드만 갱신하고 판매상태 등은 건드리지 않는다(sync_sheet.py 와 동일 규칙).
+        조회에 실패해도 치명적이지 않다 — 기존 스냅샷 그대로 진행한다.
+        """
+        sheet = load_json(BUILD / "sheet.json", "시트 스냅샷(sheet.json)")
+        try:
+            csv_text = fetch_sheet_csv(self.cfg.get("sheetUrl"))
+            rows = list(csv.reader(io.StringIO(csv_text)))
+            added, changed, warn = SS.merge_csv_rows(sheet, rows)
+        except Exception as e:                       # noqa: BLE001
+            log(f"구글시트 조회 실패, 기존 스냅샷 사용 — {e}")
+            return sheet, []
+        (BUILD / "sheet.json").write_text(
+            json.dumps(sheet, ensure_ascii=False, indent=1), encoding="utf-8")
+        if added or changed:
+            log(f"구글시트 갱신 — 신규 {len(added)}건 변경 {len(changed)}건 (총 {len(sheet)}건)")
+        return sheet, warn
+
     def get(self, force=False):
         with self.lock:
             fresh = (self.fetched_at is not None
@@ -327,9 +384,12 @@ class State:
             if self.db is not None and fresh and not force:
                 return self.db, self.banner
 
+            sheet, sheet_warn = self._refresh_sheet()
+
             try:
                 rows = [page_to_row(p) for p in fetch_pages(self.token, self.source_id)]
-                db, warn = assemble(rows)
+                db, warn = assemble(rows, sheet, self.cfg)
+                warn = sheet_warn + warn
             except (NotionError, RuntimeError) as e:
                 log(f"조회 실패: {e}")
                 if self.db is None:

@@ -51,22 +51,15 @@ def parse_num(x):
         return x
 
 
-def main():
-    if len(sys.argv) != 2:
-        print("사용법: python3 build/sync_sheet.py <csv 파일>")
-        sys.exit(1)
-    csv_path = Path(sys.argv[1])
-    if not csv_path.exists():
-        print(f"중단: CSV 파일이 없습니다 — {csv_path}")
-        sys.exit(1)
+def merge_csv_rows(sheet, rows):
+    """CSV 행 목록(csv.reader 결과, 헤더 포함)을 sheet 리스트에 그 자리에서 병합한다.
 
-    sheet_path = BUILD / "sheet.json"
-    sheet = json.loads(sheet_path.read_text(encoding="utf-8")) if sheet_path.exists() else []
+    sync_sheet.py CLI 와 dashboard.py 의 실시간 조회가 같은 병합 규칙을
+    쓰도록 이 함수 하나로 모은다. (added, changed, warnings) 를 반환한다.
+    """
     by_code = {r["code"]: r for r in sheet if r.get("code")}
     by_name = {norm(f"{r.get('brand')}{r.get('name')}"): r for r in sheet}
 
-    with open(csv_path, encoding="utf-8-sig", newline="") as f:
-        rows = list(csv.reader(f))
     header = None
     for r in rows:
         if any(h in r for h in ("번호", "제품명")):
@@ -74,8 +67,7 @@ def main():
             data_rows = rows[rows.index(r) + 1:]
             break
     if header is None:
-        print("중단: CSV 에서 헤더 행을 찾지 못했습니다 (번호/제품명 컬럼 필요)")
-        sys.exit(1)
+        raise RuntimeError("CSV 에서 헤더 행을 찾지 못했습니다 (번호/제품명 컬럼 필요)")
 
     idx = {}
     for i, h in enumerate(header):
@@ -142,14 +134,39 @@ def main():
         if not key_seen:
             warnings.append(f"시트에서 사라짐(항목은 유지함, 확인 필요): {r.get('name')} ({r['key']})")
 
+    if missing_headers:
+        warnings.append(f"CSV 에 없는 예상 컬럼: {missing_headers} (해당 필드는 갱신되지 않음)")
+
+    return added, changed, warnings
+
+
+def main():
+    if len(sys.argv) != 2:
+        print("사용법: python3 build/sync_sheet.py <csv 파일>")
+        sys.exit(1)
+    csv_path = Path(sys.argv[1])
+    if not csv_path.exists():
+        print(f"중단: CSV 파일이 없습니다 — {csv_path}")
+        sys.exit(1)
+
+    sheet_path = BUILD / "sheet.json"
+    sheet = json.loads(sheet_path.read_text(encoding="utf-8")) if sheet_path.exists() else []
+
+    with open(csv_path, encoding="utf-8-sig", newline="") as f:
+        rows = list(csv.reader(f))
+
+    try:
+        added, changed, warnings = merge_csv_rows(sheet, rows)
+    except RuntimeError as e:
+        print(f"중단: {e}")
+        sys.exit(1)
+
     sheet_path.write_text(json.dumps(sheet, ensure_ascii=False, indent=1), encoding="utf-8")
 
     print(f"■ 시트 동기화 결과 (스펙 필드만 갱신, 판매상태는 유지)")
     print(f"  · 신규 {len(added)}건, 변경 {len(changed)}건, 총 {len(sheet)}건")
     for k, name, diffs in changed:
         print(f"    ~ [{k}] {name}: " + ", ".join(f"{f} {old!r}→{new!r}" for f, old, new in diffs))
-    if missing_headers:
-        warnings.append(f"CSV 에 없는 예상 컬럼: {missing_headers} (해당 필드는 갱신되지 않음)")
     if warnings:
         print("\n■ 경고")
         for w in warnings:
