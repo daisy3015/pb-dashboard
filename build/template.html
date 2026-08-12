@@ -570,6 +570,10 @@ tbody tr{cursor:default;transition:.13s}
 tbody tr:hover{background:var(--acs)}
 tbody tr.late td:first-child{box-shadow:inset 3px 0 0 var(--dn)}
 td.nm{font-weight:550;min-width:208px;color:var(--tx)}
+/* 발주 목록 — '→ 실제매칭명' · '시트: 미입력' 같은 서브텍스트 유무와 무관하게
+   탭(전체/국내발주) 전환 시에도 행 높이가 흔들리지 않도록 고정하고, 셀 내용은
+   vertical-align:middle 로 수직 중앙 정렬합니다. */
+#poTb tr{height:51px}
 /* ── 클릭 가능한 제품명 링크 ── */
 .lk2{background:none;border:0;padding:0;margin:0;font:inherit;font-weight:550;color:var(--tx);
   cursor:pointer;text-align:left;letter-spacing:var(--ls);text-decoration:none;
